@@ -1,4 +1,5 @@
 import Header from "./components/Header";
+import ContactForm from "./components/ContactForm";
 import "./index.css";
 
 function App() {
@@ -6,6 +7,7 @@ function App() {
     <div>
       <Header />
       {/* Other components */}
+      <ContactForm />
     </div>
   );
 }
