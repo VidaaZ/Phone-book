@@ -1,7 +1,6 @@
-import React, { FC, ChangeEvent, useState, FormEventHandler } from "react";
-import { Action } from "../types";
+import React, { FC, ChangeEvent, useState } from "react";
+import { Action, Contact } from "../types";
 import { Button, Form } from "react-bootstrap";
-import { Contact } from "../types";
 
 interface ContactFormProps {
   dispatch: React.Dispatch<Action>;
@@ -32,17 +31,34 @@ const ContactForm: FC<ContactFormProps> = ({
     });
   };
 
-  const handleOnSubmit: FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
+  const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (!dataToEdit) {
       dispatch({
         type: "ADD_CONTACT",
         payload: {
-          id: Date.now(),
+          id: Date.now(), // returns current timestamp
           ...contact,
         },
       });
+      setContact({
+        firstName: "",
+        lastName: "",
+        phoneNumber: "",
+        address: "",
+        email: "",
+      });
     } else {
+      dispatch({
+        type: "UPDATE_CONTACT",
+        payload: {
+          id: dataToEdit.id,
+          updates: {
+            id: Date.now(),
+            ...contact,
+          },
+        },
+      });
       toggleModal();
     }
   };
@@ -79,6 +95,16 @@ const ContactForm: FC<ContactFormProps> = ({
           placeholder="Enter phone number"
           onChange={handleOnChange}
         />
+        <Form.Group controlId="email">
+          <Form.Label>Email</Form.Label>
+          <Form.Control
+            name="email"
+            value={contact.email}
+            type="email"
+            placeholder="Enter email"
+            onChange={handleOnChange}
+          />
+        </Form.Group>
       </Form.Group>
       <Form.Group controlId="address">
         <Form.Label>Address</Form.Label>
@@ -90,16 +116,7 @@ const ContactForm: FC<ContactFormProps> = ({
           onChange={handleOnChange}
         />
       </Form.Group>
-      <Form.Group controlId="email">
-        <Form.Label>Email</Form.Label>
-        <Form.Control
-          name="email"
-          value={contact.email}
-          type="email"
-          placeholder="Enter email"
-          onChange={handleOnChange}
-        />
-      </Form.Group>
+
       <div className="d-flex justify-content-end">
         <Button variant="primary" type="submit" className="submit-btn">
           {dataToEdit ? "Update Contact" : "Add Contact"}
