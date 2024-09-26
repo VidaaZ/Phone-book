@@ -21,9 +21,9 @@ const ContactList: FC<ContactListProps> = ({ contacts }) => {
           </thead>
           <tbody>
             {contacts.map(
-              ({ firstName, lastName, phoneNumber, address, email }) => (
+              ({ id, firstName, lastName, phoneNumber, address, email }) => (
                 // eslint-disable-next-line react/jsx-key
-                <tr>
+                <tr key={id}>
                   <td>{firstName}</td>
                   <td>{lastName}</td>
                   <td>{phoneNumber}</td>

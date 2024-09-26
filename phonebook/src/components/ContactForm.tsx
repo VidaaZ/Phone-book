@@ -30,7 +30,10 @@ const ContactForm: FC<ContactFormProps> = (props) => {
     e.preventDefault();
     dispatch({
       type: "ADD_CONTACT",
-      payload: contact,
+      payload: {
+        id: Date.now(), // returns current timestamp
+        ...contact,
+      },
     });
   };
 
