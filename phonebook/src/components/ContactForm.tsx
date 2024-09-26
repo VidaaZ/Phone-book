@@ -13,6 +13,7 @@ const ContactForm: FC<ContactFormProps> = ({
   dataToEdit,
   toggleModal,
 }) => {
+  const [errorMessage, setErrorMessage] = useState("");
   const [contact, setContact] = useState({
     firstName: dataToEdit?.firstName ? dataToEdit.firstName : "",
     lastName: dataToEdit?.lastName ? dataToEdit.lastName : "",
@@ -33,11 +34,25 @@ const ContactForm: FC<ContactFormProps> = ({
 
   const handleOnSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const { firstName, lastName, phoneNumber, address, email } = contact;
+    if (
+      firstName.trim() === "" ||
+      lastName.trim() === "" ||
+      phoneNumber.trim() === "" ||
+      address.trim() === "" ||
+      email.trim() === ""
+    ) {
+      setErrorMessage("All the fields are required.");
+      return;
+    } else if (phoneNumber.length < 3) {
+      setErrorMessage("Please enter a phone number with more than 3 numbers.");
+      return;
+    }
     if (!dataToEdit) {
       dispatch({
         type: "ADD_CONTACT",
         payload: {
-          id: Date.now(), // returns current timestamp
+          id: Date.now(),
           ...contact,
         },
       });
@@ -48,6 +63,7 @@ const ContactForm: FC<ContactFormProps> = ({
         address: "",
         email: "",
       });
+      setErrorMessage("");
     } else {
       dispatch({
         type: "UPDATE_CONTACT",
@@ -66,6 +82,7 @@ const ContactForm: FC<ContactFormProps> = ({
   return (
     <Form onSubmit={handleOnSubmit} className="contact-form">
       <h3 className="mb-3">Add New Contact</h3>
+      {errorMessage && <p className="errorMsg">{errorMessage}</p>}
       <Form.Group controlId="firstName">
         <Form.Label>First Name</Form.Label>
         <Form.Control
