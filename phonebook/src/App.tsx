@@ -1,15 +1,19 @@
+import React, { useReducer, FC } from "react";
 import Header from "./components/Header";
 import ContactForm from "./components/ContactForm";
-import "./index.css";
+import { contactsReducer, AppState } from "./reducers/contactsReducer";
 
-function App() {
+const initialState: AppState = {
+  contacts: [],
+};
+
+const App: FC = () => {
+  const [state, dispatch] = useReducer(contactsReducer, initialState);
   return (
-    <div>
+    <>
       <Header />
-      {/* Other components */}
-      <ContactForm />
-    </div>
+      <ContactForm dispatch={dispatch} />
+    </>
   );
-}
-
+};
 export default App;

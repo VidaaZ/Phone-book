@@ -1,7 +1,13 @@
 import React, { FC, ChangeEvent, useState, FormEventHandler } from "react";
+import { Action } from "../types";
 import { Button, Form } from "react-bootstrap";
 
-const ContactForm: FC = () => {
+interface ContactFormProps {
+  dispatch: React.Dispatch<Action>;
+}
+
+const ContactForm: FC<ContactFormProps> = (props) => {
+  const { dispatch } = props;
   const [contact, setContact] = useState({
     firstName: "",
     lastName: "",
@@ -22,8 +28,10 @@ const ContactForm: FC = () => {
 
   const handleOnSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    console.log("Contact:", contact);
-    // TODO: Implement form submission logic
+    dispatch({
+      type: "ADD_CONTACT",
+      payload: contact,
+    });
   };
 
   return (
