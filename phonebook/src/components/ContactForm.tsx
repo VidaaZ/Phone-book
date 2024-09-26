@@ -1,19 +1,25 @@
 import React, { FC, ChangeEvent, useState, FormEventHandler } from "react";
 import { Action } from "../types";
 import { Button, Form } from "react-bootstrap";
+import { Contact } from "../types";
 
 interface ContactFormProps {
   dispatch: React.Dispatch<Action>;
+  dataToEdit: Contact | undefined;
+  toggleModal: () => void;
 }
 
-const ContactForm: FC<ContactFormProps> = (props) => {
-  const { dispatch } = props;
+const ContactForm: FC<ContactFormProps> = ({
+  dispatch,
+  dataToEdit,
+  toggleModal,
+}) => {
   const [contact, setContact] = useState({
-    firstName: "",
-    lastName: "",
-    phoneNumber: "",
-    address: "",
-    email: "",
+    firstName: dataToEdit?.firstName ? dataToEdit.firstName : "",
+    lastName: dataToEdit?.lastName ? dataToEdit.lastName : "",
+    phoneNumber: dataToEdit?.phoneNumber ? dataToEdit.phoneNumber : "",
+    address: dataToEdit?.address ? dataToEdit.address : "",
+    email: dataToEdit?.email ? dataToEdit.email : "",
   });
 
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -28,13 +34,17 @@ const ContactForm: FC<ContactFormProps> = (props) => {
 
   const handleOnSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    dispatch({
-      type: "ADD_CONTACT",
-      payload: {
-        id: Date.now(), // returns current timestamp
-        ...contact,
-      },
-    });
+    if (!dataToEdit) {
+      dispatch({
+        type: "ADD_CONTACT",
+        payload: {
+          id: Date.now(),
+          ...contact,
+        },
+      });
+    } else {
+      toggleModal();
+    }
   };
 
   return (
@@ -92,7 +102,7 @@ const ContactForm: FC<ContactFormProps> = (props) => {
       </Form.Group>
       <div className="d-flex justify-content-end">
         <Button variant="primary" type="submit" className="submit-btn">
-          Add Contact
+          {dataToEdit ? "Update Contact" : "Add Contact"}
         </Button>
       </div>
     </Form>
