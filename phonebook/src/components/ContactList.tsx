@@ -1,11 +1,17 @@
 import React, { FC } from "react";
-import { Contact } from "../types";
+import { Contact, Action } from "../types";
 import ContactItem from "./ContactItem";
 
 interface ContactListProps {
   contacts: Contact[];
+  handleEdit: (id: number) => void;
+  dispatch: React.Dispatch<Action>;
 }
-const ContactList: FC<ContactListProps> = ({ contacts }) => {
+const ContactList: FC<ContactListProps> = ({
+  contacts,
+  handleEdit,
+  dispatch,
+}) => {
   return (
     <div className="contacts-list">
       <h3 className="contacts-list-title">List of Contacts</h3>
@@ -23,19 +29,14 @@ const ContactList: FC<ContactListProps> = ({ contacts }) => {
             </tr>
           </thead>
           <tbody>
-            {contacts.map(
-              ({ firstName, lastName, phoneNumber, address, email, id }) => (
-                <ContactItem
-                  key={id}
-                  id={id}
-                  firstName={firstName}
-                  lastName={lastName}
-                  phoneNumber={phoneNumber}
-                  email={email}
-                  address={address}
-                />
-              )
-            )}
+            {contacts.map((contact) => (
+              <ContactItem
+                key={contact.id}
+                {...contact}
+                handleEdit={handleEdit}
+                dispatch={dispatch}
+              />
+            ))}
           </tbody>
         </table>
       </div>

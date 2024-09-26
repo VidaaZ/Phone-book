@@ -1,12 +1,21 @@
 import React, { FC } from "react";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
-import { Contact } from "../types";
-const ContactItem: FC<Contact> = ({
+import { Contact, Action } from "../types";
+
+interface ExtraProps {
+  handleEdit: (id: number) => void;
+  dispatch: React.Dispatch<Action>;
+}
+
+const ContactItem: FC<Contact & ExtraProps> = ({
+  id,
   firstName,
   lastName,
   phoneNumber,
   address,
   email,
+  handleEdit,
+  dispatch,
 }) => {
   return (
     <tr>
@@ -16,7 +25,12 @@ const ContactItem: FC<Contact> = ({
       <td>{email}</td>
       <td>{address}</td>
       <td>
-        <AiFillEdit size={20} color="blue" className="icon" />
+        <AiFillEdit
+          size={20}
+          onClick={() => handleEdit(id)}
+          color="blue"
+          className="icon"
+        />
       </td>
       <td>
         <AiFillDelete size={20} color="red" className="icon" />
