@@ -33,7 +33,22 @@ const ContactItem: FC<Contact & ExtraProps> = ({
         />
       </td>
       <td>
-        <AiFillDelete size={20} color="red" className="icon" />
+        <AiFillDelete
+          size={20}
+          onClick={() => {
+            const confirmDelete = window.confirm(
+              `Are you sure you want to delete contact for user ${firstName} ${lastName}?`
+            );
+            if (confirmDelete) {
+              dispatch({
+                type: "DELETE_CONTACT",
+                payload: { id },
+              });
+            }
+          }}
+          color="red"
+          className="icon"
+        />
       </td>
     </tr>
   );

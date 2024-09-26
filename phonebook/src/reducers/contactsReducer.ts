@@ -26,6 +26,13 @@ export const contactsReducer = (state: AppState, action: Action): AppState => {
         }),
       };
     }
+    case "DELETE_CONTACT": {
+      const { id } = action.payload;
+      return {
+        ...state,
+        contacts: state.contacts.filter((contact) => contact.id !== id),
+      };
+    }
     default:
       return state;
   }

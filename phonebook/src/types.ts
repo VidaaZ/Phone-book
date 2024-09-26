@@ -8,10 +8,10 @@ export interface Contact {
 }
 export interface Update {
   id: number;
-  updates: Contact;
+  updates?: Contact;
 }
 
 export interface Action {
-  type: "ADD_CONTACT" | "UPDATE_CONTACT";
+  type: "ADD_CONTACT" | "UPDATE_CONTACT" | "DELETE_CONTACT";
   payload: Contact | Update;
 }
