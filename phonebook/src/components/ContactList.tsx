@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { Contact } from "../types";
+import ContactItem from "./ContactItem";
 
 interface ContactListProps {
   contacts: Contact[];
@@ -17,19 +18,22 @@ const ContactList: FC<ContactListProps> = ({ contacts }) => {
               <th>Phone</th>
               <th>Email Address</th>
               <th>Adress</th>
+              <th>Edit</th>
+              <th>Delete</th>
             </tr>
           </thead>
           <tbody>
             {contacts.map(
-              ({ id, firstName, lastName, phoneNumber, address, email }) => (
-                // eslint-disable-next-line react/jsx-key
-                <tr key={id}>
-                  <td>{firstName}</td>
-                  <td>{lastName}</td>
-                  <td>{phoneNumber}</td>
-                  <td>{email}</td>
-                  <td>{address}</td>
-                </tr>
+              ({ firstName, lastName, phoneNumber, address, email, id }) => (
+                <ContactItem
+                  key={id}
+                  id={id}
+                  firstName={firstName}
+                  lastName={lastName}
+                  phoneNumber={phoneNumber}
+                  email={email}
+                  address={address}
+                />
               )
             )}
           </tbody>
