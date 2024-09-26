@@ -6,12 +6,12 @@ export interface Contact {
   address: string;
   email: string;
 }
-
-export interface Action {
-  type: string;
-  payload: Contact;
-}
 export interface Update {
   id: number;
   updates: Contact;
+}
+
+export interface Action {
+  type: "ADD_CONTACT" | "UPDATE_CONTACT";
+  payload: Contact | Update;
 }
