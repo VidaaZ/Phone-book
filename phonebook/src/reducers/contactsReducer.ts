@@ -11,6 +11,20 @@ export const contactsReducer = (state: AppState, action: Action): AppState => {
         ...state,
         contacts: [...state.contacts, action.payload],
       };
+    case "UPDATE_CONTACT":
+      const { id, updates } = action.payload;
+      return {
+        ...state,
+        contacts: state.contacts.map((contact) => {
+          if (contact.id === id) {
+            return {
+              ...contact,
+              ...updates,
+            };
+          }
+          return contact;
+        }),
+      };
     default:
       return state;
   }
