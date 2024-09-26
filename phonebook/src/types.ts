@@ -11,3 +11,7 @@ export interface Action {
   type: string;
   payload: Contact;
 }
+export interface Update {
+  id: number;
+  updates: Contact;
+}
